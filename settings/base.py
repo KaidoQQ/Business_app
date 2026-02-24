@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
 from tkinter import ttk
 from abc import ABC, abstractmethod
 
@@ -25,10 +24,10 @@ class MainSettings():
       self.top_left.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
       tk.Label(self.top_left, text="Formats").pack(pady=20)
 
-      type_var = tk.IntVar()
-      word = ttk.Radiobutton(self.top_left,text="WORD (.docx)",variable=type_var,value=1)
-      txt = ttk.Radiobutton(self.top_left,text="TXT (.txt)",variable=type_var,value=2)
-      pdf = ttk.Radiobutton(self.top_left,text="PDF (.pdf)",variable=type_var,value=3)
+      self.type_var = tk.IntVar()
+      word = ttk.Radiobutton(self.top_left,text="WORD (.docx)",variable=self.type_var,value=1)
+      txt = ttk.Radiobutton(self.top_left,text="TXT (.txt)",variable=self.type_var,value=2)
+      pdf = ttk.Radiobutton(self.top_left,text="PDF (.pdf)",variable=self.type_var,value=3)
 
       word.pack(pady=10,anchor="w")
       txt.pack(pady=10,anchor="w")
