@@ -35,39 +35,44 @@ class MainSettings():
 
       ttk.Separator(self.left_frame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=2)
 
-      self.bottom_left = tk.Frame(self.left_frame)
+      self.bottom_left = ttk.Frame(self.left_frame)
       self.bottom_left.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-      tk.Label(self.bottom_left, text="Tasks").pack(pady=20)
+      ttk.Label(self.bottom_left, text="Tasks").pack(pady=20)
 
       self.task_var = tk.IntVar()
       self.rait_advs = ttk.Radiobutton(self.bottom_left,text="Rating + Advice",variable=self.task_var,value=1)
       self.site = ttk.Radiobutton(self.bottom_left,text="Create a mini site for project",variable=self.task_var,value=2)
-      self.idea = ttk.Radiobutton(self.bottom_left,text="Rait your business idea",variable=self.task_var,value=3)
+      self.analysis = ttk.Radiobutton(self.bottom_left,text="PESTEL and SWOT analysis",variable=self.task_var,value=3)
 
       self.rait_advs.pack(pady=10,anchor="w")
       self.site.pack(pady=10,anchor="w")
-      self.idea.pack(pady=10,anchor="w")
+      self.analysis.pack(pady=10,anchor="w")
 
       ttk.Separator(self.main_frame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=10)
 
-      self.right_frame = tk.Frame(self.main_frame)
+      self.right_frame = ttk.Frame(self.main_frame)
       self.right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-      self.top_right = tk.Frame(self.right_frame)
+      self.top_right = ttk.Frame(self.right_frame)
       self.top_right.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
       tk.Label(self.top_right, text="Button for upload").pack(pady=20)
 
       self.upload_btn = ttk.Button(self.top_right,text="Add file",command=self.uploadBtn)
-      self.upload_btn.pack(pady=20,anchor="center")
+      self.upload_btn.pack(pady=20,anchor="center",ipadx=15, ipady=8)
 
       self.result_btn = ttk.Button(self.top_right,text="Get your results",command=self.getResult)
-      self.result_btn.pack(pady=20,anchor="center")
+      self.result_btn.pack(pady=20,anchor="center",ipadx=15, ipady=8)
 
       ttk.Separator(self.right_frame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=2)
 
-      self.bottom_right = tk.Frame(self.right_frame)
+      self.bottom_right = ttk.Frame(self.right_frame)
       self.bottom_right.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
       tk.Label(self.bottom_right, text="some info").pack(pady=20)
+
+      self.btn_info = ttk.Button(self.bottom_right,text="Examples",command=self.checkExamples)
+
+      self.btn_info.pack(anchor="center",pady=15,ipadx=15, ipady=8)
+
     except Exception as e:
       print(f"❌ [ERROR]  ON CREATION {e}")
 
@@ -80,8 +85,11 @@ class MainSettings():
   def getResult(self):
     pass
 
-  def start(self):
-    self.root.mainloop()
-    print("❇️ APP STARTED ❇️")
-      
+  @abstractmethod
+  def checkExamples(self):
+    pass
 
+  def start(self):
+    print("❇️ APP STARTED ❇️")
+    self.root.mainloop()
+      
