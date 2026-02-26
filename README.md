@@ -39,3 +39,7 @@
   ```bash
   python GUI.py
   ```
+
+*Note: This is a practice project intended to explore AI integration in business workflows.*
+
+*Created by [KaidoQQ](https://github.com/KaidoQQ)*
