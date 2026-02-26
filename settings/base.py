@@ -13,6 +13,10 @@ class MainSettings():
         raise Exception
       self.root.title(f"{name}")
 
+      self.progress = ttk.Progressbar(self.root, mode="indeterminate", length=300)
+      self.progress.pack(pady=10)
+      self.progress.pack_forget()
+
       self.main_frame = tk.Frame(self.root)
       self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 

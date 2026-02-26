@@ -1,0 +1,22 @@
+Role: You are a Senior Venture Capital Analyst and Risk Management Expert. Your goal is to conduct a "Stress Test" on my startup business plan to identify vulnerabilities and suggest strategic improvements.
+
+Task: 
+1. Read the attached business plan carefully.
+
+2. Perform a comprehensive risk assessment based on the text provided.
+
+3. DO NOT generate a separate report. Instead, provide the entire original text with your edits, comments, and improvements embedded directly into the relevant sections.
+
+Editing Protocol (Strict):
+
+- [RISK: ...]: Insert this tag immediately after any sentence or paragraph that contains a potential threat or weak point. Briefly explain why it is a risk.
+
+- [IMPROVEMENT: ...]: Insert this tag to suggest a specific strategic change or addition to strengthen that section.
+
+- [REVISED TEXT: "..."]: Use this if a specific sentence or paragraph needs to be completely rewritten for clarity, professionalism, or market appeal.
+
+- [GAP]: Use this tag if a critical piece of information (e.g., financial projections, competitor analysis) is missing from a section.
+
+Language & Tone: * The entire response must be in English.
+
+The tone should be professional, critical yet constructive, and focused on market viability in the current 2026 landscape.

@@ -10,7 +10,9 @@ from settings.base import MainSettings
 from dotenv import load_dotenv 
 import os
 
-load_dotenv("settings/tokens.env")
+import threading
+
+load_dotenv(Path(__file__).parent / "settings" / "tokens.env")
 
 API_KEY = os.getenv("GEMINI")
 
@@ -106,61 +108,96 @@ class GUI(MainSettings):
     task = info["task"]
     info = info["info"]
 
-    try:
-      match task:
-        case 1:
-          with open("Raiting + Advice.txt","r",encoding="utf-8") as file:
-            text = file.read()
+    self.progress.pack(pady=10)
+    self.progress.start(10)
 
-          response = client.models.generate_content(
-            model = "gemini-2.5-flash-lite",
-            contents = f"{text}\n\n{info}"
-          )
+    def run():
+      response = None
 
-          with open("response.txt", "w", encoding="utf-8") as file:
-            file.write(response.text)
-        case 2:
-          with open("Mini-site.txt","r",encoding="utf-8") as file:
-            text = file.read()
+      try:
+        match task:
+          case 1:
 
-          response = client.models.generate_content(
-            model = "gemini-2.5-flash-lite",
-            contents = f"{text}\n\n{info}"
-          )
+            task_file = client.files.upload(file="prompts/Raiting+Advice.txt")
 
-          with open("response.txt", "w", encoding="utf-8") as file:
-            file.write(response.text)
-        case 3:
+            response = client.models.generate_content(
+              model = "gemini-2.5-flash-lite",
+              contents = [task_file,
+                        f"{info}, Your task is to complete the assignment described in the file, based on the business information I sent you."]
+            )
 
-          with open("PESTEL AND SWOT.txt","r",encoding="utf-8") as file:
-            text = file.read()
+            with open("response.txt", "w", encoding="utf-8") as file:
+              file.write(response.text)
+          case 2:
+            task_file = client.files.upload(file="Mini-site.txt")
 
-          response = client.models.generate_content(
-            model = "gemini-2.5-flash-lite",
-            contents = f"{text}\n\n{info}"
-          )
+            response = client.models.generate_content(
+              model = "gemini-2.5-flash-lite",
+              contents = [task_file,
+                        f"{info}\n\n, Your task is to complete the assignment described in the file, based on the business information I sent you."]
+            )
 
-          with open("response.txt", "w", encoding="utf-8") as file:
-            file.write(response.text)
+            with open("response.txt", "w", encoding="utf-8") as file:
+              file.write(response.text)
+          case 3:
 
-    except Exception as e:
-      print(f"❌ [ERROR] AI GENERATE {e}")
-      return None
+            task_file = client.files.upload(file="PESTEL AND SWOT.txt")
 
+            response = client.models.generate_content(
+              model = "gemini-2.5-flash-lite",
+              contents = [task_file,
+                        f"{info}\n\n, Your task is to complete the assignment described in the file, based on the business information I sent you."]
+            )
 
-    if response:
-      self.getResult(response)
+            with open("response.txt", "w", encoding="utf-8") as file:
+              file.write(response.text)
+
+      except Exception as e:
+        print(f"❌ [ERROR] AI GENERATE {e}")
+        return None
+      finally:
+        self.progress.after(0, self.progress.stop)
+        self.progress.after(0, self.progress.pack_forget)
+        self.progress.after(0, self.getResult)
+
+    thread = threading.Thread(target=run, daemon=True)
+    thread.start()
+      
   
-  def getResult(self,answer):
-    if answer == None:
+  def getResult(self):
+    try:
+      with open("response.txt", "r", encoding="utf-8") as file:
+        response = file.read()
+    except FileNotFoundError:
+        messagebox.showerror("⚠️", "PROBLEM WITH AI RESPONSE")
+        return
+    
+    if len(response) == 0:
       print("⚠️ PROBLEM WITH AI RESPONSE")
       messagebox.showerror("⚠️","PROBLEM WITH AI RESPONSE")
       return
+    
+    src = Path("response.txt")
 
+    if not src.exists():
+      messagebox.showerror("⚠️", "No result yet!")
+      return
+    
+    dest = filedialog.asksaveasfilename(
+      title="Save result",
+      defaultextension=".txt",
+      filetypes=[("Text", "*.txt")]
+    )
+
+    if dest:
+      import shutil
+      shutil.copy(src, dest)
+      messagebox.showinfo("✅", "File saved!")
 
 
   def checkExamples(self):
-    pass
+    import webbrowser
+    webbrowser.open("https://drive.google.com/drive/folders/1odia6HumiOPGQwh-zCghA9H6Q1mmxKfl?usp=drive_link")
 
     
 
