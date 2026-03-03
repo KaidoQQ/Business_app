@@ -118,7 +118,7 @@ class GUI(MainSettings):
         match task:
           case 1:
 
-            task_file = client.files.upload(file="prompts/Raiting+Advice.txt")
+            task_file = client.files.upload(file="prompts/Rating+Advice.txt")
 
             response = client.models.generate_content(
               model = "gemini-2.5-flash-lite",
@@ -129,7 +129,7 @@ class GUI(MainSettings):
             with open("response.txt", "w", encoding="utf-8") as file:
               file.write(response.text)
           case 2:
-            task_file = client.files.upload(file="Mini-site.txt")
+            task_file = client.files.upload(file="prompts/site.txt")
 
             response = client.models.generate_content(
               model = "gemini-2.5-flash-lite",
@@ -141,7 +141,7 @@ class GUI(MainSettings):
               file.write(response.text)
           case 3:
 
-            task_file = client.files.upload(file="PESTEL AND SWOT.txt")
+            task_file = client.files.upload(file="prompts/PESTEL AND SWOT.txt")
 
             response = client.models.generate_content(
               model = "gemini-2.5-flash-lite",
@@ -165,6 +165,11 @@ class GUI(MainSettings):
       
   
   def getResult(self):
+    src = Path("response.txt")
+    if not src.exists():
+      messagebox.showerror("⚠️", "No result yet!")
+      return
+    
     try:
       with open("response.txt", "r", encoding="utf-8") as file:
         response = file.read()
@@ -172,17 +177,7 @@ class GUI(MainSettings):
         messagebox.showerror("⚠️", "PROBLEM WITH AI RESPONSE")
         return
     
-    if len(response) == 0:
-      print("⚠️ PROBLEM WITH AI RESPONSE")
-      messagebox.showerror("⚠️","PROBLEM WITH AI RESPONSE")
-      return
-    
-    src = Path("response.txt")
-
-    if not src.exists():
-      messagebox.showerror("⚠️", "No result yet!")
-      return
-    
+  
     dest = filedialog.asksaveasfilename(
       title="Save result",
       defaultextension=".txt",

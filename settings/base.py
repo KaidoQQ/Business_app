@@ -59,7 +59,7 @@ class MainSettings():
 
       self.top_right = ttk.Frame(self.right_frame)
       self.top_right.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-      tk.Label(self.top_right, text="Button for upload").pack(pady=20)
+      tk.Label(self.top_right, text="Upload your plan here").pack(pady=20)
 
       self.upload_btn = ttk.Button(self.top_right,text="Add file",command=self.uploadBtn)
       self.upload_btn.pack(pady=20,anchor="center",ipadx=15, ipady=8)
@@ -71,9 +71,9 @@ class MainSettings():
 
       self.bottom_right = ttk.Frame(self.right_frame)
       self.bottom_right.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-      tk.Label(self.bottom_right, text="some info").pack(pady=20)
+      tk.Label(self.bottom_right, text="View file structure examples").pack(pady=20)
 
-      self.btn_info = ttk.Button(self.bottom_right,text="Examples",command=self.checkExamples)
+      self.btn_info = ttk.Button(self.bottom_right,text="View",command=self.checkExamples)
 
       self.btn_info.pack(anchor="center",pady=15,ipadx=15, ipady=8)
 
